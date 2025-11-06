@@ -7,6 +7,14 @@ import { CategoryModule } from './modules/category/category.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import devConfig from './config/env/dev.config';
 import { MongooseModule } from '@nestjs/mongoose';
+import {
+  Admin,
+  adminSchema,
+  Seller,
+  sellerSchema,
+  User,
+  userSchema,
+} from './models';
 
 @Module({
   imports: [
@@ -20,6 +28,7 @@ import { MongooseModule } from '@nestjs/mongoose';
         uri: configService.get('db').url,
       }),
     }),
+    // register model in DB
     AuthModule,
     ProductModule,
     CategoryModule,

@@ -6,16 +6,12 @@ import { Types } from 'mongoose';
   discriminatorKey: 'role',
   toJSON: { virtuals: true },
 })
-export class User {
+export class Customer {
   readonly _id: Types.ObjectId;
-  @Prop({ type: String, required: true })
   userName: string;
-
-  @Prop({ type: String, required: true, unique: true })
   email: string;
-
-  @Prop({ type: String, required: true })
   password: string;
+  dob: Date;
 }
 
-export const userSchema = SchemaFactory.createForClass(User); // convert class to schema
+export const customerSchema = SchemaFactory.createForClass(Customer); // convert class to schema

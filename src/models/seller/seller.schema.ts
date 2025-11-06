@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Types } from 'mongoose';
 
 @Schema({
   timestamps: true,
@@ -6,6 +7,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
   toJSON: { virtuals: true },
 })
 export class Seller {
+  readonly _id: Types.ObjectId;
   userName: string;
   email: string;
   password: string;
@@ -14,4 +16,4 @@ export class Seller {
   whatAppLink: string;
 }
 
-export const userSchema = SchemaFactory.createForClass(Seller); // convert class to schema
+export const sellerSchema = SchemaFactory.createForClass(Seller); // convert class to schema
