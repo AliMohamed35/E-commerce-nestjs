@@ -11,6 +11,12 @@ export class Customer {
   userName: string;
   email: string;
   password: string;
+
+  otp: string;
+  otpExpiry: Date;
+  isVerified: boolean;
+
+  @Prop({ type: Date })
   dob: Date;
 }
 
