@@ -15,6 +15,7 @@ import {
   User,
   userSchema,
 } from './models';
+import { CustomerModule } from './modules/customer/customer.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import {
     AuthModule,
     ProductModule,
     CategoryModule,
+    CustomerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
