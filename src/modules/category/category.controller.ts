@@ -6,18 +6,40 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { User } from '@common/decorators';
+import { CategoryFactoryService } from './factory';
+import { AuthGuard } from '@common/guards';
 
 @Controller('category')
+@UseGuards(AuthGuard)
 export class CategoryController {
-  constructor(private readonly categoryService: CategoryService) {}
+  constructor(
+    private readonly categoryService: CategoryService,
+    private readonly categoryFactoryService: CategoryFactoryService,
+  ) {}
 
   @Post()
-  create(@Body() createCategoryDto: CreateCategoryDto) {
-    return this.categoryService.create(createCategoryDto);
+  async create(
+    @Body() createCategoryDto: CreateCategoryDto,
+    @User() user: any,
+  ) {
+    const category = this.categoryFactoryService.createCategory(
+      createCategoryDto,
+      user,
+    );
+
+    const createdCategory = await this.categoryService.create(category);
+
+    return {
+      success: true,
+      message: 'category created successfully',
+      data: createdCategory,
+    };
   }
 
   @Get()
