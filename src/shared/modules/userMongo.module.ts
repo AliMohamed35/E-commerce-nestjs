@@ -11,6 +11,7 @@ import {
   SellerRepository,
   sellerSchema,
   User,
+  UserRepository,
   userSchema,
 } from 'src/models';
 
@@ -29,7 +30,17 @@ import {
     ]),
   ],
   controllers: [],
-  providers: [SellerRepository, CustomerRepository, AdminRepository],
-  exports: [SellerRepository, CustomerRepository, AdminRepository], // export repositories for use in other modules
+  providers: [
+    SellerRepository,
+    CustomerRepository,
+    AdminRepository,
+    UserRepository,
+  ],
+  exports: [
+    SellerRepository,
+    CustomerRepository,
+    AdminRepository,
+    UserRepository,
+  ], // export repositories for use in other modules
 })
 export class UserMongoModule {}
