@@ -1,4 +1,4 @@
-import { CustomerRepository } from '@models/index';
+import { CustomerRepository, UserRepository } from '@models/index';
 import {
   ConflictException,
   Injectable,
@@ -16,6 +16,7 @@ export class AuthService {
   constructor(
     private readonly customerRepository: CustomerRepository,
     private readonly configService: ConfigService,
+    private readonly userRepository: UserRepository,
     private readonly jwtSerice: JwtService,
   ) {}
   async register(customer: Customer) {
@@ -46,7 +47,7 @@ export class AuthService {
   }
 
   async login(loginDTO: LoginDTO) {
-    const customerExist = await this.customerRepository.getOne({
+    const customerExist = await this.userRepository.getOne({
       email: loginDTO.email,
     });
 

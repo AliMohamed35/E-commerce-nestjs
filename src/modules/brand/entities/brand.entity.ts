@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 
-export class Category {
+export class Brand {
   readonly _id: Types.ObjectId;
   name: string;
   slug: string;

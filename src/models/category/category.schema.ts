@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { SchemaTypes, Types } from 'mongoose';
+import mongoose, { SchemaTypes, Types } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Category {
@@ -11,11 +11,18 @@ export class Category {
   slug: string;
 
   @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Admin',
+    required: true,
+  })
+  createdBy: mongoose.Types.ObjectId;
+
+  @Prop({
     type: SchemaTypes.ObjectId,
     ref: 'Admin',
     required: true,
   })
-  createdBy: Types.ObjectId;
+  updatedBy: Types.ObjectId;
 
   logo: Object;
 }
