@@ -12,7 +12,7 @@ export class RegisterDTO {
   @IsString()
   @IsNotEmpty()
   @MinLength(3)
-  @MaxLength(3)
+  @MaxLength(20)
   userName: string;
 
   @IsEmail()

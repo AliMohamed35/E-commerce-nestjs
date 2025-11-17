@@ -1,27 +1,48 @@
+import { Public, User } from '@common/decorators';
+import { Auth } from '@common/decorators/auth.decorator';
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
-  UseGuards,
+  Get,
+  Param,
+  Post,
+  Put,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { User } from '@common/decorators';
 import { CategoryFactoryService } from './factory';
-import { AuthGuard } from '@common/guards';
 
 @Controller('category')
-@UseGuards(AuthGuard)
+@Auth(['Admin'])
 export class CategoryController {
   constructor(
     private readonly categoryService: CategoryService,
     private readonly categoryFactoryService: CategoryFactoryService,
   ) {}
+
+  @Get(':id')
+  @Public()
+  async findOne(@Param('id') id: string) {
+    const category = await this.categoryService.findOne(id);
+    return {
+      success: true,
+      message: 'category retrieved succesffuly',
+      data: category,
+    };
+  }
+
+  @Get()
+  @Public()
+  async findAll() {
+    const categories = await this.categoryService.findAll();
+    return {
+      success: true,
+      message: 'categories retrieved succesffuly',
+      data: categories,
+    };
+  }
 
   @Post()
   async create(
@@ -42,22 +63,25 @@ export class CategoryController {
     };
   }
 
-  @Get()
-  findAll() {
-    return this.categoryService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.categoryService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
+  @Put(':id')
+  async update(
     @Param('id') id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
+    @User() user: any,
   ) {
-    return this.categoryService.update(+id, updateCategoryDto);
+    const category = await this.categoryFactoryService.updateCategory(
+      id,
+      updateCategoryDto,
+      user,
+    );
+
+    const updatedCategory = await this.categoryService.update(id, category);
+
+    return {
+      success: true,
+      message: 'category updated successfully',
+      data: updatedCategory,
+    };
   }
 
   @Delete(':id')
