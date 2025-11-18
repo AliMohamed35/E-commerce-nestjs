@@ -14,5 +14,6 @@ import { BrandFactoryService } from './factory/brand.factory';
   ],
   controllers: [BrandController],
   providers: [BrandService, BrandFactoryService, BrandRepository, JwtService],
+  exports: [BrandService, BrandFactoryService, BrandRepository, JwtService],
 })
 export class BrandModule {}

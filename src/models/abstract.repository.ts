@@ -20,6 +20,7 @@ export class AbstractRepository<T> {
     projection?: ProjectionType<T>,
     options?: QueryOptions,
   ) {
+    console.log('🚨 FILTER passed to getOne():', filter);
     return this.model.findOne(filter, projection, options);
   }
 

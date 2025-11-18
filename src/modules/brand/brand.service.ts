@@ -1,7 +1,12 @@
 import { Brand, BrandRepository } from '@models/index';
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UpdateBrandDto } from './dto/update-brand.dto';
 import { message } from '@common/constant';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class BrandService {
@@ -18,8 +23,12 @@ export class BrandService {
     return `This action returns all brand`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} brand`;
+  async findOne(id: number | Types.ObjectId | string) {
+    const brandExist = await this.brandRepository.getOne({ _id: id });
+
+    if (!brandExist) throw new NotFoundException(message.Brand.notFound);
+
+    return brandExist;
   }
 
   update(id: number, updateBrandDto: UpdateBrandDto) {

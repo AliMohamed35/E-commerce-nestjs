@@ -5,6 +5,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { Category } from './entities/category.entity';
+import { Types } from 'mongoose';
+import { message } from '@common/constant';
 
 @Injectable()
 export class CategoryService {
@@ -15,14 +17,15 @@ export class CategoryService {
     return categories;
   }
 
-  async findOne(id: string) {
+  async findOne(id: number | Types.ObjectId) {
     const category = await this.categoryRepository.getOne(
       { _id: id },
       {},
       { populate: [{ path: 'createdBy' }, { path: 'updatedBy' }] },
     );
+
     if (!category) {
-      throw new NotFoundException("this category doesn't exist");
+      throw new NotFoundException(message.Category.notFound);
     }
     return category;
   }
