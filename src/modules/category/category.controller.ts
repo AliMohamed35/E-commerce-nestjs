@@ -24,7 +24,7 @@ export class CategoryController {
 
   @Get(':id')
   @Public()
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: number) {
     const category = await this.categoryService.findOne(id);
     return {
       success: true,
